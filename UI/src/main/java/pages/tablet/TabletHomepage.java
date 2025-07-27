@@ -14,6 +14,7 @@ public class TabletHomepage extends BasePage {
         headerLanguageChangeButton = page.locator("app-header tbcx-language-select");
         footerTermsAndFeesButton = page.locator("//*[text()=\"Personal\"]/ancestor::*/following-sibling::tbcx-pw-footer-sub-item//*[text()=\"Terms and Fees\"]");
 
+
     }
 }
 
