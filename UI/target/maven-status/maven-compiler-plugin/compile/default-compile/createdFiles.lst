@@ -1,0 +1,4 @@
+pages\BasePage.class
+pages\tablet\TabletHomepage.class
+pages\desktop\DesktopHomepage.class
+pages\mobile\MobileHomepage.class
