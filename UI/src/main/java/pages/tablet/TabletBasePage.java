@@ -4,16 +4,17 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import pages.BasePage;
 
-public class TabletHomepage extends BasePage {
+public class TabletBasePage extends BasePage {
     public final Locator headerLanguageChangeButton;
     public final Locator footerTermsAndFeesButton;
+    public final Locator burgerMenuButton;
 
 
-    public TabletHomepage(Page page) {
+    public TabletBasePage(Page page) {
         super(page);
         headerLanguageChangeButton = page.locator("app-header tbcx-language-select");
         footerTermsAndFeesButton = page.locator("//*[text()=\"Personal\"]/ancestor::*/following-sibling::tbcx-pw-footer-sub-item//*[text()=\"Terms and Fees\"]");
-
+        burgerMenuButton = page.locator("//tbcx-pw-hamburger-menu/div/button");
 
     }
 }

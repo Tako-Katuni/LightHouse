@@ -3,15 +3,16 @@ package pages.tablet;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
-public class TermsAndFeesPage {
+public class TermsAndFeesPage extends TabletBasePage {
     private final Page page;
-    public final Locator forInDividualsRightArrow;
+    public final Locator forIndividualsRightArrow;
     public final Locator documentsHyperLink;
 
 
     public TermsAndFeesPage(Page page) {
+        super(page);
         this.page = page;
-        forInDividualsRightArrow = page.locator("//*[text()=\" For Individuals \"]/ancestor::tbcx-pw-section-title/following-sibling::*//*[text()=\"arrow-right-outlined\"]");
+        forIndividualsRightArrow = page.locator("//*[text()=\" For Individuals \"]/ancestor::tbcx-pw-section-title/following-sibling::*//*[text()=\"arrow-right-outlined\"]");
         documentsHyperLink = page.locator("//*[text()=\"Documents\"]/ancestor::a");
     }
 

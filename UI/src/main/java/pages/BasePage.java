@@ -8,8 +8,6 @@ public class BasePage {
     public final Locator searchField;
 
 
-
-
     public BasePage(Page page){
         searchButton = page.locator("button.tbcx-pw-search__button");
         searchField = page.locator("#tbcx-text-input-4");
