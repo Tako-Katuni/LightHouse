@@ -12,4 +12,8 @@ public class BasePage {
         searchButton = page.locator("button.tbcx-pw-search__button");
         searchField = page.locator("#tbcx-text-input-4");
     }
+
+    public Locator getSubelementWithText(Locator parent, String text) {
+        return parent.locator("//*[text()=\"" + text + "\"]");
+    }
 }

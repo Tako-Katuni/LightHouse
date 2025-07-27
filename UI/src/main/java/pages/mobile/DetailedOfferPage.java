@@ -2,6 +2,7 @@ package pages.mobile;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import static data.Constants.Mobile.*;
 
 import java.util.regex.Pattern;
 
@@ -10,7 +11,7 @@ public class DetailedOfferPage extends MobileBasePage{
     public final Locator detailedPageDuration;
 
 
-    Pattern pattern = Pattern.compile(".*დარჩენილი დღეები.*", Pattern.CASE_INSENSITIVE);
+    Pattern pattern = Pattern.compile(".*"+DURATION_TEXT+".*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public DetailedOfferPage(Page page) {
         super(page);

@@ -21,7 +21,7 @@ public class TermsAndFeesPage extends TabletBasePage {
         return page.locator(dynamicPath);
     }
     public final Locator getSubwindowHeadlineByText(String text) {
-        String dynamicPath =  "tbcx-pw-container//*[text()=\"" + text + "\"]";
+        String dynamicPath =  "//tbcx-pw-container//*[text()=\"" + text + "\"]";
         return page.locator(dynamicPath);
     }
 }
