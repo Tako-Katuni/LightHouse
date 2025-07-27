@@ -11,7 +11,7 @@ public class DetailedOfferPage extends MobileBasePage{
     public final Locator detailedPageDuration;
 
 
-    Pattern pattern = Pattern.compile(".*"+DURATION_TEXT+".*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    Pattern pattern = Pattern.compile(".*" + DURATION_TEXT + ".*", Pattern.CASE_INSENSITIVE);
 
     public DetailedOfferPage(Page page) {
         super(page);

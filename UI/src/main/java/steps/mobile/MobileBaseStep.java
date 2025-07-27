@@ -21,8 +21,9 @@ public class MobileBaseStep extends BaseStep {
 
 
     public MobileBaseStep openBurgerMenu() {
-        PlaywrightAssertions.assertThat(mobileBasePage.burgerMenuButton).isVisible();
-        mobileBasePage.burgerMenuButton.click();
+        page.waitForTimeout(1000);
+        PlaywrightAssertions.assertThat(mobileBasePage.burgerMenuButton.first()).isVisible();
+        mobileBasePage.burgerMenuButton.first().click();
         return this;
     }
 
@@ -32,11 +33,6 @@ public class MobileBaseStep extends BaseStep {
         return this;
     }
 
-    public MobileBaseStep clickOffersButton() {
-        PlaywrightAssertions.assertThat(mobileBasePage.offersButtonInGeorgian).isVisible();
-        mobileBasePage.offersButtonInGeorgian.click();
-        return this;
-    }
 
     public MobileBaseStep validateLanguageIsSetToGeorgian() {
         PlaywrightAssertions.assertThat(mobileBasePage.burgerMenuSwitchToEnglishButton).isVisible();
@@ -44,7 +40,7 @@ public class MobileBaseStep extends BaseStep {
     }
 
     public MobileBaseStep validateBurgerMenuSubsectionsAreVertical(){
-        PlaywrightAssertions.assertThat(mobileBasePage.burgerMenuSubgroupButtons).isVisible();
+        PlaywrightAssertions.assertThat(mobileBasePage.burgerMenuSubgroupButtons.first()).isVisible();
         List<Locator>subsections = mobileBasePage.burgerMenuSubgroupButtons.all();
         for (int i = 0; i < subsections.size()-1; i++) {
             Locator subsection1 = subsections.get(i);
