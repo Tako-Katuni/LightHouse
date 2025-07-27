@@ -1,6 +1,7 @@
 package steps.tablet;
 
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import org.testng.Assert;
 import pages.tablet.TermsAndFeesPage;
@@ -57,8 +58,10 @@ public class TermsAndFeesStep extends TabletBaseStep {
         termsAndFeesPage.getForIndividualsCardByTitle(title).click();
     }
 
-    public TermsAndFeesStep validateURL() {
-        String URL = page.url();
+    public TermsAndFeesStep validateURL(){
+        String URL = termsAndFeesPage.documentsHyperLink.getAttribute("href");
+//        System.out.println("Current URL: " + URL);
+//        System.out.println("Expected URL: " + DOCUMENTS_URL_BASE);
         Assert.assertTrue(URL.contains(DOCUMENTS_URL_BASE));
         return this;
     }

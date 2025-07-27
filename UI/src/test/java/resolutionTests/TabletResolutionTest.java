@@ -19,8 +19,8 @@ public class TabletResolutionTest {
     public void setUp() {
         playwright = Playwright.create();
         BrowserType.LaunchOptions options = new BrowserType.LaunchOptions();
-        options.setHeadless(false); // ეს წასაშლელია, არ დაგრჩეს
-        options.setSlowMo(2000);
+        options.setHeadless(true);
+//        options.setSlowMo(2000);
         browser = playwright.chromium().launch(options);
         context = browser.newContext();
         page = context.newPage();
@@ -62,10 +62,11 @@ public class TabletResolutionTest {
     }
 
     @Test(dependsOnMethods = {"findDesiredCard"})
-    public void validateDocumentHyperlink() {
+    public void validateDocumentHyperlink(){
         new TermsAndFeesStep(page)
-                .clickDocumentsHyperLink()
-                .validateURL();
+                .validateURL()
+                .clickDocumentsHyperLink();
+
     }
 
 }
