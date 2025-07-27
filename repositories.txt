@@ -1,5 +1,0 @@
-Github:
-https://github.com/irakli-2003/TBC-final.git
-
-Azure:
-https://iraklizviadauri1@dev.azure.com/iraklizviadauri1/TBC%20Academy%20final%20project/_git/TBC%20Final%20project%20repository
