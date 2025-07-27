@@ -2,23 +2,31 @@ package steps.tablet;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import org.testng.Assert;
 import pages.tablet.TermsAndFeesPage;
+
 
 import java.util.regex.Pattern;
 
 import static data.Constants.Tablet.*;
 
-public class TermsAndFeesStep {
+public class TermsAndFeesStep extends TabletBaseStep {
     Page page;
     private final TermsAndFeesPage termsAndFeesPage;
 
     public TermsAndFeesStep(Page page) {
+        super(page);
         this.termsAndFeesPage = new TermsAndFeesPage(page);
         this.page = page;
     }
 
     public TermsAndFeesStep clickRightArrowUntilDesiredCard() {
-        while (!termsAndFeesPage.getForIndividualsCardByTitle(OPENING_ACCOUNT_FOR_NON_GEORGIAN).isVisible()) {
+        if(!termsAndFeesPage.getForIndividualsCardByTitle(OPENING_ACCOUNT_FOR_NON_GEORGIAN).first().isVisible()) {
+            while (!termsAndFeesPage.getForIndividualsCardByTitle(OPENING_ACCOUNT_FOR_NON_GEORGIAN).first().isVisible()) {
+                termsAndFeesPage.forIndividualsRightArrow.click();
+            }
+        } else{
+            termsAndFeesPage.forIndividualsRightArrow.click();
             termsAndFeesPage.forIndividualsRightArrow.click();
         }
         return this;
@@ -31,7 +39,7 @@ public class TermsAndFeesStep {
 
     public TermsAndFeesStep validateSubwindowHeadline() {
         PlaywrightAssertions.assertThat(
-                termsAndFeesPage.getSubwindowHeadlineByText(OPENING_ACCOUNT_FOR_NON_GEORGIAN)
+                termsAndFeesPage.getSubwindowHeadlineByText(OPENING_ACCOUNT_FOR_NON_GEORGIAN).first()
         ).isVisible();
         return this;
     }
@@ -50,8 +58,8 @@ public class TermsAndFeesStep {
     }
 
     public TermsAndFeesStep validateURL() {
-        Pattern pattern = Pattern.compile(".*" + Pattern.quote(DOCUMENTS_URL_BASE) + ".*");
-        PlaywrightAssertions.assertThat(page).hasURL(pattern);
+        String URL = page.url();
+        Assert.assertTrue(URL.contains(DOCUMENTS_URL_BASE));
         return this;
     }
 

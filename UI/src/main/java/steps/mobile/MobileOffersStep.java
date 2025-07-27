@@ -4,7 +4,7 @@ import POJO.OfferCard;
 import com.microsoft.playwright.Page;
 import pages.mobile.MobileOffersPage;
 
-public class MobileOffersStep {
+public class MobileOffersStep extends MobileBaseStep {
     private MobileOffersPage mobileOffersPage;
     private static OfferCard savedCard;
 
@@ -13,6 +13,7 @@ public class MobileOffersStep {
     }
 
     public MobileOffersStep(Page page) {
+        super(page);
         this.mobileOffersPage = new MobileOffersPage(page);
     }
 

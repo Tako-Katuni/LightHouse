@@ -4,11 +4,12 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import pages.mobile.DetailedOfferPage;
 
-public class MobileDetailedOfferStep {
+public class MobileDetailedOfferStep extends MobileBaseStep{
 
     private DetailedOfferPage detailedOfferPage;
 
     public MobileDetailedOfferStep(Page page) {
+        super(page);
         this.detailedOfferPage = new DetailedOfferPage(page);
     }
 

@@ -5,14 +5,16 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import org.testng.Assert;
 import pages.mobile.MobileBasePage;
+import steps.BaseStep;
 
 import java.util.List;
 
-public class MobileBaseStep {
+public class MobileBaseStep extends BaseStep {
     private Page page;
     private MobileBasePage mobileBasePage;
 
-    private MobileBaseStep(Page page) {
+    public MobileBaseStep(Page page) {
+        super(page);
         this.page = page;
         this.mobileBasePage = new MobileBasePage(page);
     }
@@ -57,6 +59,12 @@ public class MobileBaseStep {
     public MobileBaseStep clickOffersButtonInBurgerMenu() {
         PlaywrightAssertions.assertThat(mobileBasePage.offersButtonInGeorgian).isVisible();
         mobileBasePage.offersButtonInGeorgian.click();
+        return this;
+    }
+
+    public MobileBaseStep resizeToMobile(){
+        page.setViewportSize(360,720);
+        page.evaluate("window.resizeTo(360, 720);");
         return this;
     }
 }
