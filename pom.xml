@@ -17,5 +17,6 @@
     <modules>
         <module>UI</module>
         <module>API</module>
+        <module>Performance</module>
     </modules>
 </project>
