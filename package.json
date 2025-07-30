@@ -1,0 +1,17 @@
+﻿{
+  "name": "lighthouse-automation",
+  "version": "1.0.0",
+  "main": "lighthouse-runner.js",
+  "type": "module",
+  "scripts": {
+    "run:lighthouse": "node lighthouse-runner.js",
+    "check:report": "node report-checker.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "lighthouse": "^12.8.0"
+  }
+}
