@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "lighthouse-automation",
   "version": "1.0.0",
   "main": "lighthouse-runner.js",
@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "lighthouse": "^12.8.0"
+    "lighthouse": "^12.8.0",
+    "open": "^10.2.0"
   }
 }
