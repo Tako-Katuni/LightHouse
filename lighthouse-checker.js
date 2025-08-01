@@ -1,166 +1,7 @@
-// import readline from 'readline';
-// import { exec } from 'child_process';
-// import fs from 'fs';
-// import path from 'path';
-// import open from 'open'; // npm install open
-
-// const rl = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout
-// });
-// const ask = (question) => new Promise(resolve => rl.question(question, resolve));
-
-// async function main() {
-//   // Ask URL
-//   let url = await ask('Enter website URL to audit: ');
-//   url = url.replace(/^"|"$/g, '');
-//   url = encodeURI(url);
-
-//   // Ask thresholds
-//   const perfThreshold = parseInt(await ask('Performance min score: '), 10);
-//   const accThreshold = parseInt(await ask('Accessibility min score: '), 10);
-//   const seoThreshold = parseInt(await ask('SEO min score: '), 10);
-//   const bestThreshold = parseInt(await ask('Best Practices min score: '), 10);
-//   const pwaThreshold = parseInt(await ask('PWA min score: '), 10);
-
-//   if (!fs.existsSync('./reports')) fs.mkdirSync('./reports');
-
-//   const timestamp = Date.now();
-//   const basePath = `./reports/report-${timestamp}`;
-//   const jsonPath = `${basePath}.report.json`;
-//   const htmlPath = `${basePath}.report.html`;
-//   const summaryPath = `./reports/summary-${timestamp}.html`;
-
-//   console.log(`\nRunning Lighthouse on ${url}...`);
-
-//   const command = `lighthouse "${url}" --quiet --chrome-flags="--headless" --output json --output html --output-path=${basePath}`;
-
-//   exec(command, async (error) => {
-//     if (error) {
-//       console.error(`Error running Lighthouse: ${error.message}`);
-//       rl.close();
-//       return;
-//     }
-
-//     // Parse JSON
-//     const report = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-
-//     const scores = {
-//       performance: report.categories.performance.score * 100,
-//       accessibility: report.categories.accessibility.score * 100,
-//       seo: report.categories.seo.score * 100,
-//       best: report.categories['best-practices'].score * 100,
-//       pwa: report.categories.pwa ? report.categories.pwa.score * 100 : 0
-//     };
-
-//     const thresholds = {
-//       performance: perfThreshold,
-//       accessibility: accThreshold,
-//       seo: seoThreshold,
-//       best: bestThreshold,
-//       pwa: pwaThreshold
-//     };
-
-//     // Get deep diagnostics
-//     const audits = report.audits;
-//     const opportunities = Object.values(audits).filter(a => a.details && a.details.type === 'opportunity');
-//     const diagnostics = Object.values(audits).filter(a => a.details && a.details.type === 'diagnostic');
-//     const failedAudits = Object.values(audits).filter(a => a.score !== null && a.score < 1);
-//     const passedAudits = Object.values(audits).filter(a => a.score === 1);
-
-//     // Build HTML
-//     const summaryHtml = `
-// <!DOCTYPE html>
-// <html>
-// <head>
-//   <meta charset="UTF-8">
-//   <title>Lighthouse Summary Report</title>
-//   <style>
-//     body { font-family: Arial, sans-serif; padding: 20px; }
-//     h1, h2, h3 { color: #333; }
-//     table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-//     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-//     th { background: #f4f4f4; }
-//     .pass { color: green; font-weight: bold; }
-//     .fail { color: red; font-weight: bold; }
-//     .section { margin-top: 40px; }
-//   </style>
-// </head>
-// <body>
-//   <h1>Lighthouse Summary</h1>
-//   <p><strong>URL:</strong> ${report.requestedUrl}</p>
-//   <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
-  
-//   <table>
-//     <tr>
-//       <th>Metric</th>
-//       <th>Score</th>
-//       <th>Expected</th>
-//       <th>Status</th>
-//     </tr>
-//     ${Object.keys(scores).map(key => `
-//       <tr>
-//         <td>${key.charAt(0).toUpperCase() + key.slice(1)}</td>
-//         <td>${scores[key]}</td>
-//         <td>${thresholds[key]}</td>
-//         <td class="${scores[key] >= thresholds[key] ? 'pass' : 'fail'}">
-//           ${scores[key] >= thresholds[key] ? 'PASS' : 'FAIL'}
-//         </td>
-//       </tr>
-//     `).join('')}
-//   </table>
-
-//   <div class="section">
-//     <h2>Opportunities (Improvements)</h2>
-//     ${opportunities.length ? opportunities.map(o => `
-//       <p><strong>${o.title}</strong>: ${o.description || ''}</p>
-//     `).join('') : '<p>No major opportunities found.</p>'}
-//   </div>
-
-//   <div class="section">
-//     <h2>Diagnostics</h2>
-//     ${diagnostics.length ? diagnostics.map(d => `
-//       <p><strong>${d.title}</strong>: ${d.description || ''}</p>
-//     `).join('') : '<p>No diagnostics available.</p>'}
-//   </div>
-
-//   <div class="section">
-//     <h2>Failed Audits</h2>
-//     ${failedAudits.length ? failedAudits.map(f => `
-//       <p><strong>${f.title}</strong>: ${f.description || ''}</p>
-//     `).join('') : '<p>All audits passed 🎉</p>'}
-//   </div>
-
-//   <div class="section">
-//     <h2>Passed Audits</h2>
-//     ${passedAudits.length ? passedAudits.slice(0, 10).map(p => `
-//       <p>${p.title}</p>
-//     `).join('') + (passedAudits.length > 10 ? `<p>...and ${passedAudits.length - 10} more</p>` : '') : '<p>No passed audits.</p>'}
-//   </div>
-
-//   <div class="section">
-//     <h2>Full Lighthouse Report</h2>
-//     <p><a href="./report-${timestamp}.report.html" target="_blank">Open full report</a></p>
-//   </div>
-// </body>
-// </html>
-// `;
-
-//     fs.writeFileSync(summaryPath, summaryHtml);
-
-//     console.log(`\nSummary report generated: ${summaryPath}`);
-//     await open(path.resolve(summaryPath));
-
-//     rl.close();
-//   });
-// }
-
-// main();
-
 import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import open from 'open'; // npm install open
+import open from 'open';
 
 // Hardcoded URLs
 const urls = [
@@ -169,20 +10,20 @@ const urls = [
   'https://tbcbank.ge/ka/tbc-education/it-academy'
 ];
 
-// Fixed thresholds
+// Fixed validations
 const thresholds = {
   performance: 80,
   accessibility: 80,
-  seo: 80,
-  best: 80
+  seo: 90,
+  best: 90
 };
 
-// Ensure reports folder exists
+// Reports Folder
 if (!fs.existsSync('./reports')) {
   fs.mkdirSync('./reports');
 }
 
-// Function to generate report per URL
+// Generating report for each URL
 function runAudit(url) {
   return new Promise((resolve) => {
     const timestamp = Date.now();
@@ -193,8 +34,28 @@ function runAudit(url) {
     const summaryPath = `./reports/summary-${safeUrl}-${timestamp}.html`;
 
     console.log(`\nRunning Lighthouse on ${url}...`);
+// Detect mode
+const isDesktop = process.argv.includes('--desktop');
+const isMobile = process.argv.includes('--mobile');
 
-    const command = `lighthouse "${url}" --quiet --chrome-flags="--headless" --output json --output html --output-path=${basePath}`;
+// Decide extra flags
+const extraFlags = isDesktop
+  ? '--form-factor=desktop --screen-emulation.disabled --throttling.cpuSlowdownMultiplier=1 --throttling-method=provided'
+  : '--form-factor=mobile';
+
+// Use in command
+const command = `lighthouse "${url}" \
+  --quiet \
+  --chrome-flags="--headless" \
+  --output json \
+  --output html \
+  --output-path=${basePath} \
+  --form-factor=desktop \
+  --screen-emulation.disabled \
+  --throttling.cpuSlowdownMultiplier=1 \
+  --throttling-method=provided`;
+
+
 
     exec(command, async (error) => {
       if (error) {
@@ -203,7 +64,7 @@ function runAudit(url) {
         return;
       }
 
-      // Parse JSON report
+      // Parse JSON for the main metrics
       const report = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
       const scores = {
         performance: report.categories.performance.score * 100,
@@ -212,14 +73,14 @@ function runAudit(url) {
         best: report.categories['best-practices'].score * 100
       };
 
-      // Extract deep diagnostics
+      // Extract all other info
       const audits = report.audits;
       const opportunities = Object.values(audits).filter(a => a.details && a.details.type === 'opportunity');
       const diagnostics = Object.values(audits).filter(a => a.details && a.details.type === 'diagnostic');
       const failedAudits = Object.values(audits).filter(a => a.score !== null && a.score < 1);
       const passedAudits = Object.values(audits).filter(a => a.score === 1);
 
-      // Build human-readable summary
+      // human-readable summary
       const summaryHtml = `
 <!DOCTYPE html>
 <html>
@@ -306,7 +167,7 @@ function runAudit(url) {
   });
 }
 
-// Run audits sequentially
+// Launch each URL seperately
 (async () => {
   for (const url of urls) {
     await runAudit(url);

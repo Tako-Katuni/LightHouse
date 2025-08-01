@@ -1,18 +1,27 @@
 {
   "name": "lighthouse-automation",
   "version": "1.0.0",
-  "main": "lighthouse-runner.js",
+  "description": "Automated Lighthouse audits with summary and full report generation",
+  "main": "lighthouse-checker.js",
   "type": "module",
   "scripts": {
-    "run:lighthouse": "node lighthouse-runner.js",
+    "run:lighthouse": "node lighthouse-checker.js",       
+    "run:desktop": "node lighthouse-checker.js --desktop", 
+    "run:mobile": "node lighthouse-checker.js --mobile",   
     "check:report": "node report-checker.js"
   },
-  "keywords": [],
+  "keywords": [
+    "lighthouse",
+    "automation",
+    "performance",
+    "audit"
+  ],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "lighthouse": "^12.8.0",
     "open": "^10.2.0"
+  },
+  "devDependencies": {
+    "lighthouse": "^12.8.0"
   }
 }
